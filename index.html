@@ -291,6 +291,7 @@ async function enviar() {
   // Evitar doble envío
   btn.disabled = true;
   btn.textContent = "Enviando…";
+
   const data = {
     fecha: document.querySelector('input[type="date"]').value,
     empresa: document.querySelectorAll('input')[1].value,
@@ -303,21 +304,27 @@ async function enviar() {
     nps: document.querySelector('.nps .active')?.textContent || '',
     comentarios: document.querySelector('textarea').value
   };
+
   if (!data.empresa || !data.nombre) {
     alert("Por favor complete los datos del cliente");
+    btn.disabled = false;
+    btn.textContent = "Enviar Encuesta";
     return;
   }
-  await fetch("https://script.google.com/macros/s/AKfycbx-nK-58lqnIydtZdHCGoKsLb2kqeHqdTl6rH5xVaUB6HCFHSb9q7cIYohdVCTXWDZO/exec", {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
+
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbx-nK-58lqnIydtZdHCGoKsLb2kqeHqdTl6rH5xVaUB6HCFHSb9q7cIYohdVCTXWDZO/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
     alert("✅ Gracias por responder la encuesta");
     btn.textContent = "Enviada ✔️";
+
   } catch (e) {
-    alert("Error al enviar, intente nuevamente");
+    alert("❌ Error al enviar, intente nuevamente");
     btn.disabled = false;
     btn.textContent = "Enviar Encuesta";
   }
