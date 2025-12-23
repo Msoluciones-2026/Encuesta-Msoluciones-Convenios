@@ -320,11 +320,11 @@ async function enviar() {
       body: JSON.stringify(data)
     });
 
-    alert("✅ Gracias por responder la encuesta");
-    btn.textContent = "Enviada ✔️";
+    alert("Gracias por responder la encuesta");
+    btn.textContent = "Enviada";
 
   } catch (e) {
-    alert("❌ Error al enviar, intente nuevamente");
+    alert("Error al enviar, intente nuevamente");
     btn.disabled = false;
     btn.textContent = "Enviar Encuesta";
   }
