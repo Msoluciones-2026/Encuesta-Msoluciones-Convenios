@@ -371,7 +371,7 @@ function mostrarSuccess(texto) {
 
 
 async function enviar() {
-  limpiarErrores(); i
+  limpiarErrores();
   const fechaActual = new Date().toISOString().split('T')[0];
   const btn = document.getElementById("btnEnviar");
 
@@ -383,52 +383,43 @@ async function enviar() {
 
   const data = {
     fecha: fechaActual,
-    empresa: inputs[1].value,
-    nombre: inputs[2].value,
-    cargo: inputs[3].value,
+    empresa: inputs[0].value,
+    nombre: inputs[1].value,
+    cargo: inputs[2].value,
     correo: inputs[3].value,
 
-    q1: getStars(0),
-    q2: getStars(1),
-    q3: getStars(2),
-    q4: getStars(3),
+    q1: getStars(0), // Calidad
+    q2: getStars(1), // Requisitos
+    q3: getStars(2), // Entrega
+    q4: getStars(3), // Expectativas
+    q5: getStars(4), // Personal
+    q6: getStars(5), // Resolución
+
     nps: document.querySelector('.nps .active')?.textContent || '',
     comentarios: textarea.value
   };
 
-if (!data.fecha) {
-  mostrarError("Debe indicar la fecha", inputs[0]);
-  btn.disabled = false;
-  btn.textContent = "Enviar Encuesta";
-  return;
-}
 
 if (!data.empresa) {
-  mostrarError("Debe indicar la empresa", inputs[1]);
-  btn.disabled = false;
-  btn.textContent = "Enviar Encuesta";
+  mostrarError("Debe indicar la empresa", inputs[0]);
   return;
 }
 
 if (!data.nombre) {
-  mostrarError("Debe indicar su nombre", inputs[2]);
-  btn.disabled = false;
-  btn.textContent = "Enviar Encuesta";
+  mostrarError("Debe indicar su nombre", inputs[1]);
   return;
 }
 
 if (!data.cargo) {
-  mostrarError("Debe indicar su cargo", inputs[3]);
-  btn.disabled = false;
-  btn.textContent = "Enviar Encuesta";
+  mostrarError("Debe indicar su cargo", inputs[2]);
   return;
 }
+
 if (!data.correo) {
   mostrarError("Debe indicar un correo electrónico", inputs[3]);
-  btn.disabled = false;
-  btn.textContent = "Enviar Encuesta";
   return;
 }
+
 
 
 if (!todasLasEstrellasRespondidas()) {
@@ -481,7 +472,7 @@ if (!data.nps) {
   }
 
 }
-const TOTAL_PREGUNTAS = 7;
+const TOTAL_PREGUNTAS = 6;
 function getStars(i) {
   return [...document.querySelectorAll('.stars')[i].children]
     .filter(s => s.classList.contains('active')).length;
