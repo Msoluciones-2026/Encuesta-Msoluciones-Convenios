@@ -235,20 +235,20 @@ footer {
     <h3>Datos del Cliente</h3>
     <div class="grid">
       <div>
-        <label>Fecha</label>
-        <input type="date">
-      </div>
-      <div>
         <label>Empresa / Institución</label>
         <input placeholder="Ej. Clínica Santa María">
       </div>
       <div>
-        <label>Nombre quien califica</label>
+        <label>Nombre</label>
         <input placeholder="Su nombre completo">
       </div>
       <div>
         <label>Cargo</label>
         <input placeholder="Ej. Jefe de Operaciones">
+      </div>
+      <div>
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="correo@ejemplo.com">
       </div>
     </div>
   </div>
@@ -261,27 +261,34 @@ footer {
     <p>¿Cómo calificaría la calidad técnica del mantenimiento realizado?</p>
     <div class="stars" data-q="q1"></div>
   </div>
-
   <div class="question">
-    <h4>#2 Tiempos de Respuesta</h4>
-    <p>¿El servicio se completó dentro de los plazos acordados?</p>
+    <h4>#2 Cumplimiento de Requisitos</h4>
+    <p>¿El servicio cumplió con los requisitos establecidos?</p>
     <div class="stars" data-q="q2"></div>
   </div>
-
   <div class="question">
-    <h4>#3 Personal Técnico</h4>
+    <h4>#3 Entrega del Servicio</h4>
+    <p>¿El servicio se entregó de forma oportuna y puntual?</p>
+    <div class="stars" data-q="q2"></div>
+  </div>
+  <div class="question">
+    <h4>#4 Cumplimiento de Expectativas</h4>
+    <p>¿El servicio cumplió con sus expectativas?</p>
+    <div class="stars" data-q="qX"></div>
+  </div>
+  <div class="question">
+    <h4>#5 Personal Técnico</h4>
     <p>¿Cómo evalúa el profesionalismo y conocimiento del personal?</p>
     <div class="stars" data-q="q3"></div>
   </div>
-
   <div class="question">
-    <h4>#4 Resolución</h4>
+    <h4>#6 Resolución</h4>
     <p>¿El servicio resolvió efectivamente la falla?</p>
     <div class="stars" data-q="q4"></div>
   </div>
 
   <div class="question">
-    <h4>5. ¿Recomendaría nuestros servicios?</h4>
+    <h4>7. ¿Recomendaría nuestros servicios?</h4>
     <div class="nps" id="nps"></div>
     <div class="nps-labels">
       <span>Poco probable</span>
@@ -301,7 +308,7 @@ footer {
   Enviar Encuesta
   </button>
 
-  <footer>© 2025 Servicios y Mantenciones MSoluciones</footer>
+  <footer>© 2026 SERVICIO Y MANTENCIONES MSOLUCIONES LTDA</footer>
 
 </div>
 
@@ -364,7 +371,8 @@ function mostrarSuccess(texto) {
 
 
 async function enviar() {
-  limpiarErrores(); 
+  limpiarErrores(); i
+  const fechaActual = new Date().toISOString().split('T')[0];
   const btn = document.getElementById("btnEnviar");
 
   btn.disabled = true;
@@ -374,10 +382,12 @@ async function enviar() {
   const textarea = document.querySelector('textarea');
 
   const data = {
-    fecha: inputs[0].value,
+    fecha: fechaActual,
     empresa: inputs[1].value,
     nombre: inputs[2].value,
     cargo: inputs[3].value,
+    correo: inputs[3].value,
+
     q1: getStars(0),
     q2: getStars(1),
     q3: getStars(2),
@@ -409,6 +419,12 @@ if (!data.nombre) {
 
 if (!data.cargo) {
   mostrarError("Debe indicar su cargo", inputs[3]);
+  btn.disabled = false;
+  btn.textContent = "Enviar Encuesta";
+  return;
+}
+if (!data.correo) {
+  mostrarError("Debe indicar un correo electrónico", inputs[3]);
   btn.disabled = false;
   btn.textContent = "Enviar Encuesta";
   return;
@@ -465,19 +481,21 @@ if (!data.nps) {
   }
 
 }
-
+const TOTAL_PREGUNTAS = 7;
 function getStars(i) {
   return [...document.querySelectorAll('.stars')[i].children]
     .filter(s => s.classList.contains('active')).length;
 }
 function todasLasEstrellasRespondidas() {
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < TOTAL_PREGUNTAS; i++) {
     if (getStars(i) === 0) {
       return false;
     }
   }
   return true;
 }
+
+
 
 </script>
 
