@@ -458,6 +458,15 @@ if (!data.nps) {
     });
 
     mostrarSuccess("Gracias por responder la encuesta");
+    // 🧹 LIMPIAR FORMULARIO
+    inputs.forEach(i => i.value = "");
+    textarea.value = "";
+    
+    document.querySelectorAll('.stars span')
+      .forEach(s => s.classList.remove('active'));
+    
+    document.querySelectorAll('.nps button')
+      .forEach(b => b.classList.remove('active'));
 
     inputs.forEach(i => i.value = "");
     textarea.value = "";
